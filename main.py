@@ -9,6 +9,7 @@ from langchain.chat_models import ChatOpenAI
 load_dotenv()
 
 openai_api_key = os.getenv("openaikey")
+print(openai_api_key)
 llm = ChatOpenAI(temperature=0, openai_api_key=openai_api_key, model_name='gpt-3.5-turbo')
 
 # Database connection parameters
@@ -17,9 +18,14 @@ azure_database = os.getenv("azure_database")
 azure_username = os.getenv("azure_username")
 azure_password = os.getenv("azure_password")
 
-# Create a SQLAlchemy engine for Azure SQL Server
-db_uri = f"mssql+pyodbc://{azure_username}:{azure_password}@{azure_server}/{azure_database}?driver=ODBC+Driver+17+for+SQL+Server"
+# Schemas
+schema1 = os.getenv("schema1")
+schema2 = os.getenv("schema2")
+
+# Create a SQLAlchemy engine for Azure SQL Server with multiple schemas
+db_uri = f"mssql+pyodbc://{azure_username}:{azure_password}@{azure_server}/{azure_database}?driver=ODBC+Driver+17+for+SQL+Server&schema={schema1},{schema2}"
 engine = create_engine(db_uri)
+print(db_uri)
 
 # Initialize SQLDatabase instance
 db = SQLDatabase(engine)
@@ -29,7 +35,7 @@ db_chain = SQLDatabaseChain.from_llm(llm, db, verbose=True)
 
 # Streamlit UI
 def main():
-    st.title("Talk to Kohler Database")
+    st.title("Ask query to Database")
 
     user_input = st.text_area("Please write your query here:")
 

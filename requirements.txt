@@ -1,3 +1,8 @@
+#personal system python version 3.9.7
+pymssql
+altair==4.1.0  #extra for stream lit
+#vega-lite  #extra for stream lit
+numpy   #extra for stream lit
 langchain
 streamlit
 openai
