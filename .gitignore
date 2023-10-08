@@ -1,0 +1,5 @@
+#virtual env
+t2sapp
+
+#.env files
+.env
